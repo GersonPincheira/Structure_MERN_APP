@@ -57,6 +57,15 @@ UserSchema.methods.generateAuthToken = async function() {
     await user.save()
     return token
 }
+UserSchema.methods.ChangeAuthToken = async function(bad_token) {
+    const user = this;
+    user.tokens = user.tokens.filter((token) =>{
+        return token.token != bad_token;
+    });
+    await user.save();
+    const new_token = await user.generateAuthToken();
+    return new_token
+}
 
 UserSchema.statics.findByCredentials = async (email, password) => {
     // Search for a user by email and password.

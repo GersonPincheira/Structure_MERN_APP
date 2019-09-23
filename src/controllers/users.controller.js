@@ -3,7 +3,7 @@ import User from '../models/User';
 // GET
 UsersController.getUsers =  async (req,res) => {
 	const users = await User.find();
-	res.json(users);
+    res.header({"client":req.user.email,"x-auth-token":req.token}).json(users);
 }
 //POST
 UsersController.newUser = async (req, res) => {
